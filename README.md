@@ -9,7 +9,7 @@ Este script permite recopilar información valiosa del sistema, tanto de manera 
 3. Navegue hasta la ubicación del archivo descargado usando el comando `cd <ruta>` (reemplace `<ruta>` con la ubicación del archivo).
 4. Ejecute el script utilizando el siguiente comando:
     ```
-    script.bat
+    System-Info-Collector.bat
     ```
 5. Siga las instrucciones en pantalla para seleccionar las opciones de recopilación de información.
 
