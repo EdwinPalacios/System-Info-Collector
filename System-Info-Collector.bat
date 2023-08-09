@@ -1,23 +1,58 @@
 @echo off
 setlocal enabledelayedexpansion
 
+echo -------------------------------------------------------------------------------------------------------
+echo "                   .--.--.                  ,---,              ,----..                               "
+echo "                  /  /    '.             ,`--.' |             /   /   \                              "
+echo "                 |  :  /`. /      ,---,. |   :  :     ,---,. |   :     :                             "
+echo "                 ;  |  |--`     ,'  .' | :   |  '   ,'  .' | .   |  ;. /                             "
+echo "                 |  :  ;_     ,---.'   , |   :  | ,---.'   , .   ; /--`                              "
+echo "                  \  \    `.  |   |    | '   '  ; |   |    | ;   | ;                                 "
+echo "                   `----.   \ :   :  .'  |   |  | :   :  .'  |   : |                                 "
+echo "                   __ \  \  | :   |.'    '   :  ; :   |.'    .   | '___                              "
+echo "                  /  /`--'  / `---'      |   |  ' `---'      '   ; : .'|                             "
+echo "                 '--'.     /             '   :  |            '   | '/  :                             "
+echo "                   `--'---'              ;   |.'             |   :    /                              "
+echo "                                         '---'                \   \ .'                               "
+echo "                                                               `---`                                 "
+echo -------------------------------------------------------------------------------------------------------
+
+echo -------------------------------------------------------------------------------------------------------
+echo Autor: EdwinPalacios
+echo Versión: 1.1
+echo Repositorio: https://github.com/EdwinPalacios/System-Info-Collector
+echo Propósito: Recopilar información del sistema para tareas de diagnóstico
+echo -------------------------------------------------------------------------------------------------------
+
 echo Descargo de responsabilidad: Este script está destinado únicamente a fines educativos y diagnósticos.
 echo No debe ser utilizado para ninguna actividad ilegal o no autorizada.
 echo El usuario es el único responsable de su uso.
 
-echo Autor: EdwinPalacios
-echo Versión: 1.0
-echo Propósito: Recopilar información del sistema para tareas de diagnóstico
+echo -------------------------------------------------------------------------------------------------------
 
+:menu_principal
 echo Seleccione la opción deseada:
 echo 1. Recopilar toda la información
 echo 2. Recopilar información selectiva
-echo 3. Salir
+echo 3. Ayuda
+echo 4. Salir
 set /p opcion=Ingrese una opción:
 
-if "%opcion%"=="3" goto fin
+if "%opcion%"=="4" goto fin
+if "%opcion%"=="3" goto ayuda
 if "%opcion%"=="1" goto opcion_toda
 if "%opcion%"=="2" goto opcion_selectiva
+echo Opción inválida. Por favor, intente nuevamente.
+goto menu_principal
+
+:ayuda
+echo Aquí puedes encontrar información detallada sobre cada opción:
+echo 1. Recopilar toda la información: recopila y guarda toda la información disponible del sistema.
+echo 2. Recopilar información selectiva: permite elegir y recopilar información específica del sistema.
+echo 3. Ayuda: muestra este menú de ayuda.
+echo 4. Salir: cierra el script.
+pause
+goto menu_principal
 
 :opcion_toda
 call :informacion_general
@@ -66,26 +101,34 @@ echo 20. Salir
 set /p seleccion=Ingrese una opción:
 
 if "%seleccion%"=="20" goto fin
-if "%seleccion%"=="1" call :informacion_general
-if "%seleccion%"=="2" call :informacion_so
-if "%seleccion%"=="3" call :informacion_ip
-if "%seleccion%"=="4" call :informacion_programas
-if "%seleccion%"=="5" call :informacion_disco
-if "%seleccion%"=="6" call :informacion_cpu
-if "%seleccion%"=="7" call :informacion_ram
-if "%seleccion%"=="8" call :informacion_tarjeta_grafica
-if "%seleccion%"=="9" call :informacion_bios
-if "%seleccion%"=="10" call :informacion_procesos
-if "%seleccion%"=="11" call :informacion_firewall
-if "%seleccion%"=="12" call :informacion_actualizaciones
-if "%seleccion%"=="13" call :informacion_servicios
-if "%seleccion%"=="14" call :informacion_red
-if "%seleccion%"=="15" call :informacion_usuarios
-if "%seleccion%"=="16" call :informacion_grupos
-if "%seleccion%"=="17" call :informacion_unidades
-if "%seleccion%"=="18" call :informacion_dispositivos
-if "%seleccion%"=="19" call :informacion_mac
+if "%seleccion%" geq "1" if "%seleccion%" leq "19" (
+    call :recopilar_info %seleccion%
+    goto opcion_selectiva
+)
+echo Opción inválida. Por favor, intente nuevamente.
 goto opcion_selectiva
+
+:recopilar_info
+if "%1"=="1" call :informacion_general
+if "%1"=="2" call :informacion_so
+if "%1"=="3" call :informacion_ip
+if "%1"=="4" call :informacion_programas
+if "%1"=="5" call :informacion_disco
+if "%1"=="6" call :informacion_cpu
+if "%1"=="7" call :informacion_ram
+if "%1"=="8" call :informacion_tarjeta_grafica
+if "%1"=="9" call :informacion_bios
+if "%1"=="10" call :informacion_procesos
+if "%1"=="11" call :informacion_firewall
+if "%1"=="12" call :informacion_actualizaciones
+if "%1"=="13" call :informacion_servicios
+if "%1"=="14" call :informacion_red
+if "%1"=="15" call :informacion_usuarios
+if "%1"=="16" call :informacion_grupos
+if "%1"=="17" call :informacion_unidades
+if "%1"=="18" call :informacion_dispositivos
+if "%1"=="19" call :informacion_mac
+goto :eof
 
 :informacion_general
 echo INFORMACION GENERAL > info.txt
@@ -205,3 +248,10 @@ goto :eof
 :fin
 echo Tarea completada. La información ha sido guardada en info.txt.
 pause
+
+:end
+echo Error: algo salió mal. Consulte el archivo log.txt para obtener más detalles.
+echo Logfile >> log.txt
+date /T >> log.txt
+time /T >> log.txt
+echo ---------------------------- >> log.txt
